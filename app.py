@@ -250,38 +250,36 @@ if not st.session_state.bank_kata and not st.session_state.jawaban_user:
     random.shuffle(soal_acak)
     st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_acak)]
 
-# --- STYLING CSS TERPERBAIKI UNTUK HP ---
+# --- STYLING CSS TERBAIK UNTUK HP & DESKTOP ---
 st.markdown("""
 <style>
-    /* Hilangkan label bawaan widget */
     div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
         display: none;
     }
     
-    /* Container untuk pilihan kata otomatis menyesuaikan panjang isi tulisan */
-    .word-container {
+    /* Menjaga 4 Kolom di Layar Lebar & HP */
+    [data-testid="stHorizontalBlock"] {
         display: flex !important;
+        flex-direction: row !important;
         flex-wrap: wrap !important;
-        gap: 8px !important;
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
+        gap: 4px !important;
     }
     
-    /* Tombol pilihan kata mengikuti panjang teks tanpa terpotong */
-    .word-container div.stButton {
-        flex: 0 1 auto !important;
-        width: auto !important;
+    [data-testid="stHorizontalBlock"] > div {
+        flex: 1 1 23% !important; 
+        min-width: 0 !important; /* Mencegah kolom meluber di HP */
     }
     
-    .word-container div.stButton > button {
-        width: auto !important;
-        white-space: nowrap !important;
-        border-radius: 10px !important;
+    /* Tombol Pilihan Kata Otomatis Menyesuaikan Font di HP */
+    div.stButton > button {
+        border-radius: 8px !important;
         font-weight: bold !important;
-        padding: 6px 14px !important;
-        font-size: 0.95rem !important;
+        padding: 4px 2px !important; /* Padding minimalis agar teks panjang muat */
+        font-size: clamp(0.7rem, 2.5vw, 0.95rem) !important; /* Ukuran teks dinamis sesuai HP */
+        white-space: normal !important; /* Kata panjang berganti baris jika dibutuhkan */
+        word-break: break-word !important;
     }
-    
+
     .info-box {
         background-color: #e8f4fd;
         padding: 15px;
@@ -378,18 +376,19 @@ def render_kuis_lengkap():
                         kata_bank["dipakai"] = False
                 st.rerun()
 
-    # 2. BANK KATA PILIHAN (Fleksibel & Otomatis Sesuai Panjang Teks)
+    # 2. BANK KATA PILIHAN (Layout Normal 4 Kolom Kiri ke Kanan)
     st.write("### Pilihan Kata:")
-    
-    # Bungkus tombol dalam container berpola flexbox
-    st.markdown('<div class="word-container">', unsafe_allow_html=True)
-    for item in st.session_state.bank_kata:
-        if not item["dipakai"]:
-            if st.button(item["teks"], key=f"pilih_{item['id']}"):
-                item["dipakai"] = True
-                st.session_state.jawaban_user.append(item)
-                st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
+    cols_pilihan = st.columns(4)
+    for idx, item in enumerate(st.session_state.bank_kata):
+        posisi_kolom = idx % 4
+        with cols_pilihan[posisi_kolom]:
+            if item["dipakai"]:
+                st.button(" ", key=f"disabled_{item['id']}", disabled=True, use_container_width=True)
+            else:
+                if st.button(item["teks"], key=f"pilih_{item['id']}", use_container_width=True):
+                    item["dipakai"] = True
+                    st.session_state.jawaban_user.append(item)
+                    st.rerun()
 
 render_kuis_lengkap()
 
