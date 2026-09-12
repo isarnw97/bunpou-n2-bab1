@@ -10,7 +10,7 @@ if "database_soal" not in st.session_state:
             "id": 1,
             "pola": "1. ～最中だ",
             "kanji": "田中さんは今かんがえごとをしている最中だから、じゃましないほうがいい。",
-            "hiragana": "たなかさんはいまかんがえごとをしているさいちゅうだから、じゃましないほうがいぃ。",
+            "hiragana": "たなかさんはいまかんがえごとをしているさいちゅうだから、じゃましないほうがいい。",
             "arti": "Tanaka-san sedang berpikir/melamun sekarang, jadi sebaiknya jangan diganggu.",
             "soal": ["いま", "は", "かんがえごと", "いい", "たなかさん", "ほう が", "から", "じゃましない", "さいちゅうだ", "を している", "、"],
             "kunci": ["たなかさん", "は", "いま", "かんがえごと", "を している", "さいちゅうだ", "から", "、", "じゃましない", "ほう が", "いい"]
@@ -65,7 +65,7 @@ if "database_soal" not in st.session_state:
         {
             "id": 7,
             "pola": "2. ～うちに",
-            "kanji": "学生の regist/うちに、車の運転免許をとろうと思っております。",
+            "kanji": "学生のうちに、車の運転免許をとろうと思っております。",
             "hiragana": "がくせいのうちに、くるまのうんてんめんきょをとろうとおもっております。",
             "arti": "Selagi masih menjadi mahasiswa, saya berniat untuk mengambil SIM mobil.",
             "soal": ["めんきょ", "くるま", "うんてん", "がくせい", "うちに", "とおもっております", "の", "を", "とろう", "の", "、"],
@@ -199,7 +199,7 @@ if "database_soal" not in st.session_state:
         {
             "id": 21,
             "pola": "6. ～つつ",
-            "kanji": "この空地をどうするか about/については、住民と話し合いつつ計画をたてていきたい。",
+            "kanji": "この空地をどうするかについては、住民と話し合いつつ計画をたてていきたい。",
             "hiragana": "このあきちをどうするかについては、じゅうみんとはなし合いつつけいかくをたてていきたい。",
             "arti": "Mengenai lahan kosong ini hendak dijadikan apa, kami ingin menyusun rencana sambil berdiskusi dengan warga.",
             "soal": ["この", "について は", "じゅうみん", "はなしあい", "どうするか", "けいかく", "あきち", "を", "と", "つつ", "を", "たてていきたい", "、"],
@@ -250,22 +250,38 @@ if not st.session_state.bank_kata and not st.session_state.jawaban_user:
     random.shuffle(soal_acak)
     st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_acak)]
 
-# --- STYLING CSS ---
+# --- STYLING CSS TERPERBAIKI UNTUK HP ---
 st.markdown("""
 <style>
+    /* Hilangkan label bawaan widget */
     div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
         display: none;
     }
-    [data-testid="stHorizontalBlock"] {
+    
+    /* Container untuk pilihan kata otomatis menyesuaikan panjang isi tulisan */
+    .word-container {
         display: flex !important;
-        flex-direction: row !important;
         flex-wrap: wrap !important;
-        gap: 6px !important;
+        gap: 8px !important;
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
     }
-    [data-testid="stHorizontalBlock"] > div {
-        flex: 1 1 22% !important; 
-        min-width: 70px !important; 
+    
+    /* Tombol pilihan kata mengikuti panjang teks tanpa terpotong */
+    .word-container div.stButton {
+        flex: 0 1 auto !important;
+        width: auto !important;
     }
+    
+    .word-container div.stButton > button {
+        width: auto !important;
+        white-space: nowrap !important;
+        border-radius: 10px !important;
+        font-weight: bold !important;
+        padding: 6px 14px !important;
+        font-size: 0.95rem !important;
+    }
+    
     .info-box {
         background-color: #e8f4fd;
         padding: 15px;
@@ -275,11 +291,7 @@ st.markdown("""
     }
     .text-bunpou { font-size: 1.05rem; font-weight: bold; color: #1fa2ff; margin: 0 0 6px 0; }
     .text-arti { font-size: 1.2rem; font-weight: bold; color: #1a1a1a; margin: 0; }
-    div.stButton > button {
-        border-radius: 12px !important;
-        font-weight: bold !important;
-        padding: 6px 10px !important;
-    }
+    
     .swap-indicator {
         background-color: #e6fffa;
         border: 1px dashed #319795;
@@ -366,19 +378,18 @@ def render_kuis_lengkap():
                         kata_bank["dipakai"] = False
                 st.rerun()
 
-    # 2. BANK KATA PILIHAN
+    # 2. BANK KATA PILIHAN (Fleksibel & Otomatis Sesuai Panjang Teks)
     st.write("### Pilihan Kata:")
-    cols_pilihan = st.columns(4)
-    for idx, item in enumerate(st.session_state.bank_kata):
-        posisi_kolom = idx % 4
-        with cols_pilihan[posisi_kolom]:
-            if item["dipakai"]:
-                st.button(" ", key=f"disabled_{item['id']}", disabled=True, use_container_width=True)
-            else:
-                if st.button(item["teks"], key=f"pilih_{item['id']}", use_container_width=True):
-                    item["dipakai"] = True
-                    st.session_state.jawaban_user.append(item)
-                    st.rerun()
+    
+    # Bungkus tombol dalam container berpola flexbox
+    st.markdown('<div class="word-container">', unsafe_allow_html=True)
+    for item in st.session_state.bank_kata:
+        if not item["dipakai"]:
+            if st.button(item["teks"], key=f"pilih_{item['id']}"):
+                item["dipakai"] = True
+                st.session_state.jawaban_user.append(item)
+                st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 render_kuis_lengkap()
 
