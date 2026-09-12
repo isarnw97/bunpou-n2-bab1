@@ -384,4 +384,145 @@ if "database_soal" not in st.session_state:
             "id": 17,
             "pola": "4. ～（よ）うとしている",
             "kanji": "桜が満開になろうとしているとき、雪が降った。",
-            "hiragana
+            "hiragana": "さくらがまんかいになろうとしているとき、ゆきがふった。",
+            "arti": "Saat bunga sakura hendak mekar sempurna, salju malah turun.",
+            "soal": ["まんかい に", "ゆき が", "さくら が", "としている とき", "なろう", "ふった", "、"],
+            "kunci": ["さくら が", "まんかい に", "なろう", "としている とき", "、", "ゆき が", "ふった"]
+        },
+
+        # ==================== POIN 5: ～つつある ====================
+        {
+            "id": 18,
+            "pola": "5. ～つつある",
+            "kanji": "次第にあたたかくなりつつあります。春はもうすぐです。",
+            "hiragana": "しだいにあたたかくなりつつあります。はるはもうすぐです。",
+            "arti": "Perlahan-lahan cuaca makin hangat. Musim semi sudah dekat.",
+            "soal": ["はる", "しだい に", "あたたかく", "あり ます", "は", "つつ", "もうすぐです", "、", "。"],
+            "kunci": ["しだい に", "あたたかく", "つつ", "あり ます", "、", "はる", "は", "もうすぐです", "。"]
+        },
+        {
+            "id": 19,
+            "pola": "5. ～つつある",
+            "kanji": "現在この会社は発展しつつあり、将来が期待される。",
+            "hiragana": "げんざいこのかいしゃははってんしつつあり、しょうらいがきたいされる。",
+            "arti": "Saat ini perusahaan ini sedang berkembang, dan masa depannya sangat diharapkan.",
+            "soal": ["きたいされる", "かいしゃ", "げんざい", "しょうらい が", "この", "は", "はってんし", "つつあり", "、"],
+            "kunci": ["げんざい", "この", "かいしゃ", "は", "はってんし", "つつあり", "、", "しょうらい が", "きたいされる"]
+        },
+        {
+            "id": 20,
+            "pola": "5. ～つつある",
+            "kanji": "明治時代のはじめ、日本は急速に近代化しつつあった。",
+            "hiragana": "めいじじだいのはじめ、にほんはきゅうそくにきんだいかしつつあった。",
+            "arti": "Pada awal zaman Meiji, Jepang sedang dalam proses modernisasi secara pesat.",
+            "soal": ["きんだいかし", "にほん", "つつあった", "きゅうそく に", "めいじじだい", "の", "はじめ", "は", "、"],
+            "kunci": ["めいじじだい", "の", "はじめ", "、", "にほん", "は", "きゅうそく に", "きんだいかし", "つつあった"]
+        },
+
+        # ==================== POIN 6: ～つつ ====================
+        {
+            "id": 21,
+            "pola": "6. ～つつ",
+            "kanji": "この空地をどうするかについては、住民と話し合いつつ計画をたてていきたい。",
+            "hiragana": "このあきちをどうするかについては、じゅうみんとはなし合いつつけいかくをたてていきたい。",
+            "arti": "Mengenai lahan kosong ini hendak dijadikan apa, kami ingin menyusun rencana sambil berdiskusi dengan warga.",
+            "soal": ["この", "について は", "じゅうみん", "はなしあい", "どうするか", "けいかく", "あきち", "を", "と", "つつ", "を", "たてていきたい", "、"],
+            "kunci": ["この", "あきち", "を", "どうするか", "について は", "、", "じゅうみん", "と", "はなしあい", "つつ", "けいかく", "を", "たてていきたい"]
+        },
+        {
+            "id": 22,
+            "pola": "6. ～つつ",
+            "kanji": "将来の進路など、仕事のことお金のことつつ考え、を選ばなければならない。",
+            "hiragana": "しょうらいのしんろなど、しごとのことおかねのことつつかんがえ、をえらばなければならない。",
+            "arti": "Mengenai masa depan seperti jalur karir, kita harus memilih sambil mempertimbangkan hal pekerjaan dan keuangan.",
+            "soal": ["しょうらい", "しんろ", "など", "かんがえ", "を", "おかね", "しごと", "の", "を", "えらばなければならない", "の", "こと", "こと", "つつ", "、"],
+            "kunci": ["しょうらい", "の", "しんろ", "など", "、", "しごと", "の", "こと", "おかね", "の", "こと", "つつ", "かんがえ", "を", "えらばなければならない"]
+        },
+        {
+            "id": 23,
+            "pola": "6. ～つつ",
+            "kanji": "いろいろな体験を楽しみつつ、日本の生活になれていった。",
+            "hiragana": "いろいろないたいけんをたのしみつつ、にほんのせいかつになれていった。",
+            "arti": "Sambil menikmati berbagai pengalaman, saya menjadi terbiasa dengan kehidupan di Jepang.",
+            "soal": ["たいけん", "たのしみ", "せいかつ に", "にほん", "いろいろな", "なれていった", "の", "つつ", "、"],
+            "kunci": ["いろいろな", "たいけん", "を", "たのしみ", "つつ", "、", "にほん", "の", "せいかつ に", "なれていった"]
+        }
+    ]
+
+# Inisialisasi State
+if "index_soal" not in st.session_state:
+    st.session_state.index_soal = 0
+if "jawaban_user" not in st.session_state:
+    st.session_state.jawaban_user = []
+if "bank_kata" not in st.session_state:
+    st.session_state.bank_kata = []
+if "status_periksa" not in st.session_state:
+    st.session_state.status_periksa = False
+
+# State untuk Fitur Swap
+if "idx_kata_dipilih" not in st.session_state:
+    st.session_state.idx_kata_dipilih = None
+if "mode_tukar" not in st.session_state:
+    st.session_state.mode_tukar = False
+
+soal_sekarang = st.session_state.database_soal[st.session_state.index_soal]
+
+if not st.session_state.bank_kata and not st.session_state.jawaban_user:
+    import random
+    soal_acak = list(soal_sekarang["soal"])
+    random.seed(42)
+    random.shuffle(soal_acak)
+    st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_acak)]
+
+# --- STYLING CSS SOLUSI TEKS TERPOTONG TITIK-TITIK ---
+st.markdown("""
+<style>
+    div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
+        display: none;
+    }
+    
+    /* Menjaga 4 Kolom Kiri ke Kanan */
+    [data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    
+    [data-testid="stHorizontalBlock"] > div {
+        flex: 1 1 23% !important; 
+        min-width: 0 !important;
+    }
+    
+    /* Mencegah titik-titik (ellipsis) & Mengizinkan teks bungkus ke baris baru */
+    div.stButton > button {
+        border-radius: 8px !important;
+        font-weight: bold !important;
+        padding: 4px 1px !important;
+        font-size: clamp(0.68rem, 2.3vw, 0.9rem) !important; /* Ukuran font menyesuaikan lebar HP */
+        line-height: 1.2 !important;
+        height: auto !important;
+        min-height: 42px !important;
+    }
+
+    /* Memaksa elemen teks di dalam tombol agar ganti baris jika panjang */
+    div.stButton > button p, div.stButton > button div, div.stButton > button span {
+        white-space: normal !important;
+        word-break: break-all !important;
+        text-overflow: clip !important;
+        overflow: visible !important;
+    }
+
+    .info-box {
+        background-color: #e8f4fd;
+        padding: 15px;
+        border-radius: 12px;
+        border-left: 5px solid #1fa2ff;
+        margin-bottom: 20px;
+    }
+    .text-bunpou { font-size: 1.05rem; font-weight: bold; color: #1fa2ff; margin: 0 0 6px 0; }
+    .text-arti { font-size: 1.2rem; font-weight: bold; color: #1a1a1a; margin: 0; }
+    
+    .swap-indicator {
+        background-color: #e6fffa;
+        border: 1px dashed #3
