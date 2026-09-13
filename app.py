@@ -1,98 +1,190 @@
 import random
 import streamlit as st
 
-st.set_page_config(page_title="Susun Kata Jepang - Bab 1", layout="centered")
+st.set_page_config(page_title="Susun Kata Jepang", layout="centered")
 
-# --- DATABASE SOAL (BAB 1) ---
+# --- DATABASE SOAL (TETAP SAMA TANPA DIUBAH SAMA SEKALI) ---
 if "database_soal" not in st.session_state:
     st.session_state.database_soal = [
-        # ==================== POIN 1: ～を通じて・～を通して ====================
+        # ==================== POIN 1 ====================
         {
             "id": 1,
-            "pola": "1. ～を通じて・～を通して",
-            "kanji": "この町では、四季を通じて様々な お祭りが 行われる。",
-            "hiragana": "このまちでは、しきをつうじてさまざまなまつりがおこなわれる。",
-            "arti": "Di kota ini, sepanjang empat musim diadakan berbagai macam festival.",
-            "soal": ["さまざまな", "おまつり が", "しき", "この まち では", "おこなわれる", "をつうじて", "、"],
-            "kunci": ["この まち では", "、", "しき", "をつうじて", "さまざまな", "おまつり が", "おこなわれる"]
+            "pola": "1. ～に際して・～にあたって",
+            "kanji": "この際、 | ひつようです | うけとり | しょうひん | の | せいりけん | は",
+            "hiragana": "このさい、しょうひんのうけとりにはせいりけんがひつようです。",
+            "arti": "Saat ini, tanda terima/kupon diperlukan untuk mengambil barang.",
+            "soal": ["この", "さい", "ひつようです", "うけとり", "しょうひん", "の", "せいりけん", "は", "、", "、"],
+            "kunci": ["この", "さい", "、", "しょうひん", "の", "うけとり", "には", "せいりけん", "が", "ひつようです"]
         },
         {
             "id": 2,
-            "pola": "1. ～を通じて・～を通して",
-            "kanji": "京都には年間を通して、世界中から観光客が訪れる。",
-            "hiragana": "きょうとにはねんかんをとおして、せかいじゅうからかんこうきゃくがおとずれる。",
-            "arti": "Di Kyoto, sepanjang tahun datang wisatawan dari seluruh dunia.",
-            "soal": ["せかいじゅう から", "ねんかん", "かんこうきゃく が", "をとおして", "きょうと には", "おとずれる", "、"],
-            "kunci": ["きょうと には", "ねんかん", "をとおして", "、", "せかいじゅう から", "かんこうきゃく が", "おとずれる"]
+            "pola": "1. ～に際して・～にあたって",
+            "kanji": "ご利用に際してのご記入ください...",
+            "hiragana": "ごりよう に さいして の ひつようじこう を こちら で ごきにゅうください、かいぎしつ の ごりよう になる",
+            "arti": "Saat akan menggunakan, silakan isi hal-hal yang diperlukan di sini...",
+            "soal": ["ひつようじこう", "を", "うけつけ", "かいぎしつ", "に", "こちら", "で", "さい", "の", "ごきにゅうください", "ごりよう", "は", "、", "、", "になる"],
+            "kunci": ["かいぎしつ", "の", "ごりよう", "に", "さい", "して", "の", "ひつようじこう", "を", "こちら", "で", "ごきにゅうください"]
         },
         {
             "id": 3,
-            "pola": "1. ～を通じて・～を通して",
-            "kanji": "ボランティア活動を通して、多くの人と出会うことができた。",
-            "hiragana": "ぼらんてぃあかつどうをとおして、おおくのひととであうことができた。",
-            "arti": "Melalui kegiatan sukarela, saya bisa bertemu dengan banyak orang.",
-            "soal": ["ぼらんてぃあかつどう", "であうこと が できた", "おおくの ひと と", "をとおして", "、"],
-            "kunci": ["ぼらんてぃあかつどう", "をとおして", "、", "おおくの ひと と", "であうこと が できた"]
+            "pola": "1. ～に際して・～にあたって",
+            "kanji": "アメリカ大統領の来日に際して...",
+            "hiragana": "あめりか だいとうりょう の らいにち に さい して、わたしたち の だいがく で すぴーち を おこなった",
+            "arti": "Berkenaan dengan kunjungan Presiden AS ke Jepang, beliau berpidato di universitas kami.",
+            "soal": ["だいがく", "わたしたち", "だいとうりょう", "で", "すぴーち", "に", "らいにち", "の", "を", "おこなった", "あめりか", "さい", "した", "、"],
+            "kunci": ["あめりか", "だいとうりょう", "の", "らいにち", "に", "さい", "した", "、", "わたしたち", "の", "だいがく", "で", "すぴーち", "を", "おこなった"]
         },
 
-        # ==================== POIN 2: ～をこめて ====================
+        # ==================== POIN 2 ====================
         {
             "id": 4,
-            "pola": "2. ～をこめて",
-            "kanji": "愛をこめて、このプレゼントを贈ります。",
-            "hiragana": "あいをこめて、このぷれぜんとをおくります。",
-            "arti": "Dengan sepenuh rasa cinta, saya memberikan hadiah ini.",
-            "soal": ["この ぷれぜんと", "あい", "をこめて", "をおくります", "、"],
-            "kunci": ["あい", "をこめて", "、", "この ぷれぜんと", "をおくります"]
+            "pola": "2. ～に際して・～にあたって",
+            "kanji": "工事を始めるに際して...",
+            "hiragana": "こうじ を はじめる にさいして、きんじょ の じゅうみん に あいさつ を して まわった",
+            "arti": "Saat memulai konstruksi, kami berkeliling menyapa warga sekitar.",
+            "soal": ["こうじ", "こうじかんけいしゃ", "に", "まわった", "あいさつ", "を", "きんじょ", "はじめる", "じゅうみん", "にさいして", "の", "は", "して", "、", "、"],
+            "kunci": ["こうじ", "を", "はじめる", "にさいして", "、", "きんじょ", "の", "じゅうみん", "に", "あいさつ", "を", "して", "まわった"]
         },
         {
             "id": 5,
-            "pola": "2. ～をこめて",
-            "kanji": "感謝の気持ちをこめて、手紙を書きました。",
-            "hiragana": "かんしゃのきもちをこめて、てがみをかきました。",
-            "arti": "Dengan perasaan penuh syukur, saya menulis surat.",
-            "soal": ["かんしゃ の きもち", "てがみ", "をこめて", "をかきました", "、"],
-            "kunci": ["かんしゃ の きもち", "をこめて", "、", "てがみ", "をかきました"]
+            "pola": "2. ～に際して・～にあたって",
+            "kanji": "当ショッピングサイトのご利用に際して...",
+            "hiragana": "とうしょっぴんぐさいと の ごりよう にさいして、いかの ごりようじょうけん を よく およみください",
+            "arti": "Saat menggunakan situs belanja ini, harap baca syarat dan ketentuan berikut dengan cermat.",
+            "soal": ["よく", "いかの", "とうしょっぴんぐさいと", "にさいして", "ごりようじょうけん", "およみください", "を", "の", "ごりよう", "、", "、"],
+            "kunci": ["とうしょっぴんぐさいと", "の", "ごりよう", "にさいして", "、", "いかの", "ごりようじょうけん", "を", "よく", "およみください"]
         },
-
-        # ==================== POIN 3: ～をきっかけに ====================
         {
             "id": 6,
-            "pola": "3. ～をきっかけに",
-            "kanji": "日本のアニメを見たのをきっかけに、日本語の勉強を始めた。",
-            "hiragana": "にほんのあにめをみたのをきっかけに、にほんごのべんきょうをはじめた。",
-            "arti": "Berawal dari menonton anime Jepang, saya mulai belajar bahasa Jepang.",
-            "soal": ["にほんご の べんきょう", "にほん の あにめ", "をみたの", "をきっかけに", "をはじめた", "、"],
-            "kunci": ["にほん の あにめ", "をみたの", "をきっかけに", "、", "にほんご の べんきょう", "をはじめた"]
+            "pola": "2. ～に際して・～にあたって",
+            "kanji": "新しく事業を始めるにあたって...",
+            "hiragana": "あたらしく じぎょう を はじめる に あたって、しっかり じゅんび を しよう とおもっております",
+            "arti": "Saat memulai bisnis baru, saya berniat untuk melakukan persiapan dengan matang.",
+            "soal": ["じぎょう", "じゅんび", "しっかり", "を", "あたって", "に", "はじめる", "あたらしく", "とおもっております", "しよう", "、", "、"],
+            "kunci": ["あたらしく", "じぎょう", "を", "はじめる", "に", "あたって", "、", "しっかり", "じゅんび", "を", "しよう", "とおもっております"]
         },
         {
             "id": 7,
-            "pola": "3. ～をきっかけに",
-            "kanji": "結婚をきっかけに、車を買うことにした。",
-            "hiragana": "けっこんをきっかけに、くるまをかうことにした。",
-            "arti": "Berawal dari pernikahan, kami memutuskan untuk membeli mobil.",
-            "soal": ["けっこん", "くるま", "をきっかけに", "をかうことにした", "、"],
-            "kunci": ["けっこん", "をきっかけに", "、", "くるま", "をかうことにした"]
+            "pola": "2. ～に際して・～にあたって",
+            "kanji": "お門出にあたりまして...",
+            "hiragana": "おふたり の かどで に あたりまして、おいわい の ことば を もうしあげます",
+            "arti": "Mengawali lembaran baru Anda berdua, saya ingin menyampaikan sepatah kata ucapan selamat.",
+            "soal": ["おふたりの", "もうしあげます", "おいわい", "あたりまして", "かどで", "に", "ことば", "を", "、", "、"],
+            "kunci": ["おふたりの", "かどで", "に", "あたりまして", "、", "おいわい", "の", "ことば", "を", "もうしあげます"]
         },
-
-        # ==================== POIN 4: ～を中心に ====================
         {
             "id": 8,
-            "pola": "4. ～を中心に",
-            "kanji": "東京を中心に関東地方で強い地震があった。",
-            "hiragana": "とうきょうをちゅうしんにかんとうちほうでつよいじしんがあった。",
-            "arti": "Terjadi gempa bumi kuat di wilayah Kanto dengan berpusat di Tokyo.",
-            "soal": ["とうきょう", "かんとうちほう で", "をつうしんに", "つよいじしん が あった"],
-            "kunci": ["とうきょう", "をつうしんに", "かんとうちほう で", "つよいじしん が あった"]
+            "pola": "2. ～に際して・～にあたって",
+            "kanji": "国際会議を開催するにあたり...",
+            "hiragana": "こくさいかいぎ を かいさいする に あたり、にほん の かんけいかくほうめん からの きょうりょくをえた",
+            "arti": "Saat menyelenggarakan konferensi internasional, kami memperoleh kerja sama dari berbagai pihak terkait di Jepang.",
+            "soal": ["こくさいかいぎ", "にほん", "きょうりょくをえた", "あたり", "かいさいする", "で", "からの", "に", "かんけいかくほうめん", "を", "、", "、"],
+            "kunci": ["こくさいかいぎ", "を", "かいさいする", "に", "あたり", "、", "にほん", "の", "かんけいかくほうめん", "からの", "きょうりょくをえた"]
         },
+
+        # ==================== POIN 3 ====================
         {
             "id": 9,
-            "pola": "4. ～を中心に",
-            "kanji": "若い人を中心にして、そのゲームが流行している。",
-            "hiragana": "わかいひとをちゅうしんにして、そのげーむがりゅうこうしている。",
-            "arti": "Game tersebut populer berpusat pada anak-anak muda.",
-            "soal": ["わかい ひと", "その げーむ が", "をちゅうしんにして", "りゅうこうしている", "、"],
-            "kunci": ["わかい ひと", "をちゅうしんにして", "、", "その げーむ が", "りゅうこうしている"]
+            "pola": "3. ～たとたん（に）",
+            "kanji": "山頂でワインをひとくち飲んだ途端に...",
+            "hiragana": "やま の ちょうじょう で わいん を ひとくち のんだ たとたんに、めまい が した",
+            "arti": "Begitu meminum seteguk anggur di puncak gunung, saya langsung merasa pusing.",
+            "soal": ["の", "やま", "めまい", "のんだ", "ちょうじょう", "ひとくち", "わいん", "で", "たとたんに", "が", "を", "した", "、"],
+            "kunci": ["やま", "の", "ちょうじょう", "で", "わいん", "を", "ひとくち", "のんだ", "たとたんに", "、", "めまい", "が", "した"]
+        },
+        {
+            "id": 10,
+            "pola": "3. ～たとたん（に）",
+            "kanji": "結婚した途端に...",
+            "hiragana": "けっこん する まえ は やさしかった おっと は、けっこん した たとたん に たいど が かわった",
+            "arti": "Suami yang dulu ramah sebelum menikah, begitu menikah sikapnya langsung berubah.",
+            "soal": ["おっと", "が", "かわった", "たいど", "やさしかった", "たとたん", "けっこん", "は", "が", "、", "、", "に", "けっこん", "した", "まえ", "は"],
+            "kunci": ["けっこん", "する", "まえ", "は", "やさしかった", "おっと", "は", "、", "けっこん", "した", "たとたん", "に", "たいど", "が", "かわった"]
+        },
+        {
+            "id": 11,
+            "pola": "3. ～たとたん（に）",
+            "kanji": "母の声を聴いた途端に...",
+            "hiragana": "くに の はは に でんわ を かけた、はは の こえ を きいた たとたん に なみだ が あふれてきた",
+            "arti": "Begitu menelpon ibu di kampung halaman dan mendengar suaranya, air mata langsung menetes.",
+            "soal": ["でんわ", "はは", "を", "かけた", "たとたん", "の", "あふれてきた", "なみだ", "に", "はは", "くに", "こえ", "きいた", "の", "が", "、", "を", "、"],
+            "kunci": ["くに", "の", "はは", "に", "でんわ", "を", "かけた", "、", "はは", "の", "こえ", "を", "きいた", "たとたん", "に", "なみだ", "が", "あふれてきた"]
+        },
+        {
+            "id": 12,
+            "pola": "3. ～たとたん（に）",
+            "kanji": "「さよなら」と言った途端...",
+            "hiragana": "かのじょ は 「さよなら」 と いった たとたん ぼく は はしって いってしまった",
+            "arti": "Begitu dia mengucapkan 'selamat tinggal', saya langsung berlari pergi.",
+            "soal": ["はしって", "いった", "「 さよなら 」", "かのじょ", "たとたん", "ぼく", "は", "と", "が", "いってしまった", "、", "は"],
+            "kunci": ["かのじょ", "は", "「 さよなら 」", "と", "いった", "たとたん", "ぼく", "は", "はしって", "いってしまった"]
+        },
+
+        # ==================== POIN 4 ====================
+        {
+            "id": 13,
+            "pola": "4. ～（か）と思うと・～（か）と思ったら",
+            "kanji": "部屋に入ってきたかと思うと...",
+            "hiragana": "はやしさん は へや に はいってきた とおもうと、いきなり まど を ぜんぶ あけた",
+            "arti": "Begitu Hayashi-san masuk ke kamar, dia secara tiba-tiba langsung membuka semua jendela.",
+            "soal": ["はいってきた", "あけた", "まど", "はやしさん", "とおもうと", "へや", "いきなり", "は", "を", "に", "ぜんぶ", "、", "、"],
+            "kunci": ["はやしさん", "は", "へや", "に", "はいってきた", "とおもうと", "、", "いきなり", "まど", "を", "ぜんぶ", "あけた"]
+        },
+        {
+            "id": 14,
+            "pola": "4. ～（か）と思うと・～（か）と思ったら",
+            "kanji": "笑っているかと思ったら...",
+            "hiragana": "あかちゃん は いま わらっている とおもったら、もう ないた",
+            "arti": "Bayi itu baru saja tertawa, tetapi dalam sekejap sudah menangis lagi.",
+            "soal": ["わらっている", "いま", "とおもったら", "もう", "あかちゃん", "ないた", "は", "、", "は"],
+            "kunci": ["あかちゃん", "は", "いま", "わらっている", "とおもったら", "、", "もう", "ないた"]
+        },
+        {
+            "id": 15,
+            "pola": "4. ～（か）と思うと・～（か）と思ったら",
+            "kanji": "片付いたかと思ったら...",
+            "hiragana": "こどもたち が ちらかした へや が やっと かたづいた とおもったら、また すぐ ちらかした",
+            "arti": "Kamar yang berantakan oleh anak-anak baru saja selesai dirapikan, eh langsung berantakan lagi.",
+            "soal": ["ちらかした", "へや", "やっと", "が", "こどもたち", "かたづいた", "とおもったら", "すぐ", "が", "また", "か", "、", "、"],
+            "kunci": ["こどもたち", "が", "ちらかした", "へや", "が", "やっと", "かたづいた", "か", "とおもったら", "、", "また", "すぐ", "ちらかした"]
+        },
+        {
+            "id": 16,
+            "pola": "4. ～（か）と思うと・～（か）と思ったら",
+            "kanji": "涼しくなったかと思ったら...",
+            "hiragana": "このごろ は きのう は すずしい とおもったら、きょう は きおん の さ が おおきい あつくなった",
+            "arti": "Akhir-akhir ini, kalau kemarin terasa sejuk, hari ini malah mendadak panas dengan perbedaan suhu yang besar.",
+            "soal": ["きょう", "このごろ", "さ", "おおきい", "すずしい", "きおん", "あつくなった", "きのう", "が", "は", "は", "とおもったら", "か", "、", "。", "は"],
+            "kunci": ["このごろ", "は", "きのう", "は", "すずしい", "か", "とおもったら", "、", "きょう", "は", "きおん", "の", "さ", "が", "おおきい", "あつくなった"]
+        },
+
+        # ==================== POIN 5 ====================
+        {
+            "id": 17,
+            "pola": "5. ～か～ないかのうちに",
+            "kanji": "横になるかないかのうちに...",
+            "hiragana": "いちろう は べっど に よこになる か ないかのうちに、ぐっすり ねむってしまった",
+            "arti": "Ichiro baru saja berbaring di tempat tidur, langsung tertidur pulas.",
+            "soal": ["よこになる", "ねむってしまった", "いちろう", "べっど", "ないかのうちに", "は", "か", "ぐっすり", "に", "、"],
+            "kunci": ["いちろう", "は", "べっど", "に", "よこになる", "か", "ないかのうちに", "、", "ぐっすり", "ねむってしまった"]
+        },
+        {
+            "id": 18,
+            "pola": "5. ～か～ないかのうちに",
+            "kanji": "夜が明けないかないかのうちに...",
+            "hiragana": "わたし は よる が あけない か ないかのうちに いえ を でて、くうこう へ むかった",
+            "arti": "Saat hari bahkan belum sepenuhnya terang, saya sudah keluar rumah menuju bandara.",
+            "soal": ["むかった", "くうこう", "よる", "あけた", "わたし", "いえ", "でて", "ないかのうちに", "へ", "は", "か", "を", "あけない", "、", "が", "、"],
+            "kunci": ["わたし", "は", "よる", "が", "あけない", "か", "ないかのうちに", "、", "いえ", "を", "でて", "、", "くうこう", "へ", "むかった"]
+        },
+        {
+            "id": 19,
+            "pola": "5. ～か～ないかのうちに",
+            "kanji": "話題作を発表したかないかのうちに...",
+            "hiragana": "あの うれっこ さっか は いま の わだいさく を はっぴょうした か ないかのうちに、もう つぎ の さくひん に とりかかっている そうだ",
+            "arti": "Penulis populer itu kabarnya baru saja merilis karya hangat saat ini, tetapi sudah mulai mengerjakan karya berikutnya.",
+            "soal": ["あの", "いま", "とりかかっている", "わだいさく", "うれっこ", "さくひん", "だ", "はっぴょうした", "そうだ", "さっか", "つぎ", "に", "か", "もう", "は", "ないかのうちに", "し", "の", "を", "、", "。"],
+            "kunci": ["あの", "うれっこ", "さっか", "は", "いま", "の", "わだいさく", "を", "はっぴょうした", "か", "ないかのうちに", "、", "もう", "つぎ", "の", "さくひん", "に", "とりかかっている", "そうだ"]
         }
     ]
 
@@ -114,38 +206,41 @@ if "mode_tukar" not in st.session_state:
 
 soal_sekarang = st.session_state.database_soal[st.session_state.index_soal]
 
+# Memasukkan kata langsung dari array `soal` tanpa dirubah urutannya
 if not st.session_state.bank_kata and not st.session_state.jawaban_user:
     st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_sekarang["soal"])]
 
-# --- STYLING CSS PERBAIKAN TEKS TERPOTONG TITIK-TITIK ---
+# --- CSS KHUSUS SOLUSI TEKS TERPOTONG TITIK-TITIK (...) DI HP/PERANGKAT LAIN ---
 st.markdown("""
 <style>
     div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
         display: none;
     }
     
-    /* Menjaga Multi-kolom Tetap Horisontal */
+    /* Papan Kolom Fleksibel */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
-        gap: 4px !important;
+        gap: 6px !important;
     }
     
     [data-testid="stHorizontalBlock"] > div {
-        flex: 1 1 22% !important; 
+        flex: 1 1 21% !important; 
         min-width: 0 !important;
     }
     
-    /* Mencegah Ellipsis (...) & Mengizinkan Teks Bungkus Ke Bawah */
+    /* MENGATASI SOLUSI TITIK-TITIK: Teks dipaksa membungkus (wrap) ke bawah */
     div.stButton > button {
         border-radius: 8px !important;
         font-weight: bold !important;
         padding: 4px 2px !important;
         font-size: clamp(0.65rem, 2.2vw, 0.88rem) !important;
-        line-height: 1.2 !important;
+        line-height: 1.25 !important;
         height: auto !important;
         min-height: 42px !important;
+        white-space: normal !important;
+        word-break: break-all !important;
     }
 
     div.stButton > button p, div.stButton > button div, div.stButton > button span {
@@ -178,12 +273,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Tampilan Atas
-st.title("🦉 Bunpou Master (BAB 1)")
+# Tampilan Header
+st.title("🦉 Bunpou Master")
 st.caption(f"Soal {st.session_state.index_soal + 1} dari {len(st.session_state.database_soal)}")
 st.markdown("---")
 
-# Kotak Petunjuk Soal
+# Petunjuk Soal
 st.markdown(f"""
 <div class="info-box">
     <p class="text-bunpou">📖 {soal_sekarang['pola']}</p>
@@ -191,7 +286,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# --- MENU UTAMA INTERAKTIF (FRAGMENT) ---
+# --- RENDERING KUIS UTAMA ---
 @st.fragment
 def render_kuis_lengkap():
     st.write("### Kalimat Susunanmu:")
@@ -207,7 +302,7 @@ def render_kuis_lengkap():
         st.session_state.mode_tukar = True
         if st.session_state.idx_kata_dipilih is not None:
             kata_terpilih = st.session_state.jawaban_user[st.session_state.idx_kata_dipilih]["teks"]
-            st.markdown(f'<div class="swap-indicator">📍 Kata [{kata_terpilih}] terpilih. Sekarang klik kata tujuan untuk bertukar posisi!</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="swap-indicator">📍 Kata [{kata_terpilih}] terpilih. Klik kata tujuan untuk menukar!</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="swap-indicator">💡 Klik kata pertama yang ingin ditukar posisinya...</div>', unsafe_allow_html=True)
     else:
@@ -300,6 +395,6 @@ if st.session_state.status_periksa:
     kunci_joined = "".join(kunci_strings)
     
     if user_joined == kunci_joined:
-        st.success(f"🎉 **正解 (Benar)!** Susunan bunpou kamu sudah sempurna!\n\n**🇯🇵 Kanji:** {soal_sekarang['kanji']}\n\n**💡 Hiragana:** {soal_sekarang['hiragana']}")
+        st.success(f"🎉 **正解 (Benar)!** Susunan bunpou kamu sudah sempurna!\n\n**🇯🇵 Kanji/Kalimat:** {soal_sekarang['kanji']}\n\n**💡 Hiragana:** {soal_sekarang['hiragana']}")
     else:
-        st.error(f"❌ **残念 (Kurang Tepat).**\n\n**Susunan yang benar:**\n\n`{' '.join(kunci_strings)}`\n\n**🇯🇵 Kanji asli:** {soal_sekarang['kanji']}\n\n**💡 Hiragana:** {soal_sekarang['hiragana']}")
+        st.error(f"❌ **残念 (Kurang Tepat).**\n\n**Susunan yang benar:**\n\n`{' '.join(kunci_strings)}`\n\n**🇯🇵 Kanji/Kalimat:** {soal_sekarang['kanji']}\n\n**💡 Hiragana:** {soal_sekarang['hiragana']}")
