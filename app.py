@@ -196,7 +196,6 @@ if "bank_kata" not in st.session_state:
 if "status_periksa" not in st.session_state:
     st.session_state.status_periksa = False
 
-# State untuk Fitur Tukar Posisi Murni (Swap)
 if "idx_kata_dipilih" not in st.session_state:
     st.session_state.idx_kata_dipilih = None
 
@@ -211,33 +210,11 @@ if not st.session_state.bank_kata and not st.session_state.jawaban_user:
 # --- STYLING CSS ---
 st.markdown("""
 <style>
-    /* Sembunyikan label bawaan st.pills */
-    div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
-        display: none;
-    }
-    
-    /* Wadah Flexbox untuk Pilihan Kata (Mencegah tombol bergabung / menumpuk) */
-    .word-bank-container {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        margin-top: 10px !important;
-        margin-bottom: 20px !important;
-    }
-    
-    /* Tombol Pilihan Kata Otomatis Mengikuti Panjang Kata */
-    .word-bank-container div.stButton {
-        flex: 0 1 auto !important;
-        width: auto !important;
-    }
-
-    .word-bank-container div.stButton > button {
-        border-radius: 10px !important;
+    /* Styling tombol agar lebih rapi dan empuk saat diklik */
+    div.stButton > button {
+        border-radius: 8px !important;
         font-weight: bold !important;
-        padding: 6px 14px !important;
-        white-space: nowrap !important;
-        width: auto !important;
-        min-width: fit-content !important;
+        padding: 4px 8px !important;
     }
     
     /* Kotak Info Soal */
@@ -282,7 +259,7 @@ st.markdown(f"""
 @st.fragment
 def render_kuis_lengkap():
     st.write("### Kalimat Susunanmu:")
-    # Pilihan Mode Aksi Sentuhan
+    
     mode = st.radio(
         "Aksi Sentuhan Papan:",
         ["Copot Kata (Normal)", "Tukar Posisi 2 Kata 🔄"],
@@ -290,12 +267,11 @@ def render_kuis_lengkap():
         label_visibility="collapsed"
     )
     
-    # Tampilkan petunjuk swap jika mode aktif
     if mode == "Tukar Posisi 2 Kata 🔄":
         st.session_state.mode_tukar = True
         if st.session_state.idx_kata_dipilih is not None:
             kata_terpilih = st.session_state.jawaban_user[st.session_state.idx_kata_dipilih]["teks"]
-            st.markdown(f'<div class="swap-indicator">📍 Kata [{kata_terpilih}] terpilih. Sekarang klik kata tujuan untuk bertukar posisi!</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="swap-indicator">📍 Kata [{kata_terpilih}] terpilih. Klik kata tujuan untuk bertukar posisi!</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="swap-indicator">💡 Klik kata pertama yang ingin ditukar posisinya...</div>', unsafe_allow_html=True)
     else:
@@ -306,7 +282,6 @@ def render_kuis_lengkap():
     if not st.session_state.jawaban_user:
         st.markdown("<div style='border-bottom: 2px solid #e5e5e5; padding-bottom: 15px; margin-bottom: 20px; color:#aaaaaa; font-style:italic;'>Klik kata di bawah untuk mulai menyusun...</div>", unsafe_allow_html=True)
     else:
-        # Format indeks agar urutan terdeteksi sempurna
         opsi_papan = [f"{idx}. {item['teks']}" for idx, item in enumerate(st.session_state.jawaban_user)]
         format_papan = {opt: opt.split(". ", 1)[1] for opt in opsi_papan}
         
@@ -320,45 +295,45 @@ def render_kuis_lengkap():
         
         st.markdown("<div style='border-bottom: 2px solid #e5e5e5; margin-top: -10px; margin-bottom: 25px;'></div>", unsafe_allow_html=True)
 
-        # LOGIKA PROSES KLIK DI PAPAN
         if klik_papan:
             idx_klik = int(klik_papan.split(". ")[0])
             if st.session_state.mode_tukar:
-                # JIKA MODE TUKAR (SWAP MURNI) ACTIVE
                 if st.session_state.idx_kata_dipilih is None:
-                    # Klik Pertama: Simpan posisi kata ke-1
                     st.session_state.idx_kata_dipilih = idx_klik
                     st.rerun()
                 else:
-                    # Klik Kedua: Tukar langsung isi data kata ke-1 dan kata ke-2
                     idx1 = st.session_state.idx_kata_dipilih
                     idx2 = idx_klik
                     if idx1 != idx2:
-                        # Trik Python untuk menukar isi variabel secara instan tanpa menggeser tengahnya
                         st.session_state.jawaban_user[idx1], st.session_state.jawaban_user[idx2] = st.session_state.jawaban_user[idx2], st.session_state.jawaban_user[idx1]
-                    # Reset Klik
                     st.session_state.idx_kata_dipilih = None
                     st.rerun()
             else:
-                # JIKA MODE NORMAL (COPOT KE BAWAH)
                 kata_dicopot = st.session_state.jawaban_user.pop(idx_klik)
                 for kata_bank in st.session_state.bank_kata:
                     if kata_bank["id"] == kata_dicopot["id"]:
                         kata_bank["dipakai"] = False
                 st.rerun()
 
-    # 2. BANK KATA PILIHAN (Flexbox rapi per kata)
+    # 2. BANK KATA PILIHAN (Dibuat Ke Samping Berjajar Rapi)
     st.write("### Pilihan Kata:")
-    st.markdown('<div class="word-bank-container">', unsafe_allow_html=True)
-    for idx, item in enumerate(st.session_state.bank_kata):
-        if item["dipakai"]:
-            st.button(" ", key=f"disabled_{item['id']}", disabled=True)
-        else:
-            if st.button(item["teks"], key=f"pilih_{item['id']}"):
-                item["dipakai"] = True
-                st.session_state.jawaban_user.append(item)
-                st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
+    
+    # MEMBAGI KOLOM KE SAMPING (3 Kolom Per Baris secara dinamis agar muat di HP & Laptop)
+    KOLOM_PER_BARIS = 3
+    for i in range(0, len(st.session_state.bank_kata), KOLOM_PER_BARIS):
+        cols = st.columns(KOLOM_PER_BARIS)
+        for j in range(KOLOM_PER_BARIS):
+            idx_item = i + j
+            if idx_item < len(st.session_state.bank_kata):
+                item = st.session_state.bank_kata[idx_item]
+                with cols[j]:
+                    if item["dipakai"]:
+                        st.button("✔️", key=f"disabled_{item['id']}", disabled=True, use_container_width=True)
+                    else:
+                        if st.button(item["teks"], key=f"pilih_{item['id']}", use_container_width=True):
+                            item["dipakai"] = True
+                            st.session_state.jawaban_user.append(item)
+                            st.rerun()
 
 # Jalankan Komponen Utama Kuis
 render_kuis_lengkap()
