@@ -207,16 +207,41 @@ soal_sekarang = st.session_state.database_soal[st.session_state.index_soal]
 if not st.session_state.bank_kata and not st.session_state.jawaban_user:
     st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_sekarang["soal"])]
 
-# --- STYLING CSS ---
+# --- CSS KHUSUS UNTUK TAMPILAN KAPSU/PILL KATA SEPERTI GAMBAR ---
 st.markdown("""
 <style>
-    /* Styling tombol agar lebih rapi dan empuk saat diklik */
-    div.stButton > button {
-        border-radius: 8px !important;
-        font-weight: bold !important;
-        padding: 4px 8px !important;
+    /* Mengubah Container Tombol Bank Kata menjadi Inline Flex ke samping */
+    div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px 10px !important;
+        align-items: center !important;
     }
     
+    div[data-testid="stHorizontalBlock"] > div {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
+    /* Tampilan Kotak Kapsul / Pill Sesuai Gambar */
+    div[data-testid="stHorizontalBlock"] button {
+        border-radius: 50px !important;            /* Bulat lonjong sempurna */
+        border: 1px solid #cccccc !important;       /* Garis tepi tipis abu-abu */
+        background-color: #ffffff !important;      /* Warna dasar putih */
+        color: #333333 !important;                 /* Warna teks gelap */
+        font-size: 1.1rem !important;
+        padding: 6px 18px !important;               /* Jarak dalam yang empuk */
+        box-shadow: none !important;
+        transition: all 0.2s ease-in-out !important;
+    }
+
+    /* Efek saat tombol di-hover / diklik */
+    div[data-testid="stHorizontalBlock"] button:hover {
+        border-color: #888888 !important;
+        background-color: #f7f7f7 !important;
+    }
+
     /* Kotak Info Soal */
     .info-box {
         background-color: #e8f4fd;
@@ -315,25 +340,20 @@ def render_kuis_lengkap():
                         kata_bank["dipakai"] = False
                 st.rerun()
 
-    # 2. BANK KATA PILIHAN (Dibuat Ke Samping Berjajar Rapi)
+    # 2. BANK KATA PILIHAN (Bentuk Kapsul & Berjajar Alami Ke Samping)
     st.write("### Pilihan Kata:")
     
-    # MEMBAGI KOLOM KE SAMPING (3 Kolom Per Baris secara dinamis agar muat di HP & Laptop)
-    KOLOM_PER_BARIS = 3
-    for i in range(0, len(st.session_state.bank_kata), KOLOM_PER_BARIS):
-        cols = st.columns(KOLOM_PER_BARIS)
-        for j in range(KOLOM_PER_BARIS):
-            idx_item = i + j
-            if idx_item < len(st.session_state.bank_kata):
-                item = st.session_state.bank_kata[idx_item]
-                with cols[j]:
-                    if item["dipakai"]:
-                        st.button("✔️", key=f"disabled_{item['id']}", disabled=True, use_container_width=True)
-                    else:
-                        if st.button(item["teks"], key=f"pilih_{item['id']}", use_container_width=True):
-                            item["dipakai"] = True
-                            st.session_state.jawaban_user.append(item)
-                            st.rerun()
+    # Menggunakan st.columns secara merata dalam 1 container horizontal yang diatur CSS Flexbox
+    cols = st.columns(len(st.session_state.bank_kata))
+    for idx, item in enumerate(st.session_state.bank_kata):
+        with cols[idx]:
+            if item["dipakai"]:
+                st.button(" ", key=f"disabled_{item['id']}", disabled=True)
+            else:
+                if st.button(item["teks"], key=f"pilih_{item['id']}"):
+                    item["dipakai"] = True
+                    st.session_state.jawaban_user.append(item)
+                    st.rerun()
 
 # Jalankan Komponen Utama Kuis
 render_kuis_lengkap()
