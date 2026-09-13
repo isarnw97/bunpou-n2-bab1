@@ -10,7 +10,7 @@ if "database_soal" not in st.session_state:
         {
             "id": 1,
             "pola": "1. ～を通じて・～を通して",
-            "kanji": "この町では、四季を通じて様々な we! お祭りが we! 行われる。",
+            "kanji": "この町では、四季を通じて様々な お祭りが 行われる。",
             "hiragana": "このまちでは、しきをつうじてさまざまなまつりがおこなわれる。",
             "arti": "Di kota ini, sepanjang empat musim diadakan berbagai macam festival.",
             "soal": ["さまざまな", "おまつり が", "しき", "この まち では", "おこなわれる", "をつうじて", "、"],
@@ -115,19 +115,16 @@ if "mode_tukar" not in st.session_state:
 soal_sekarang = st.session_state.database_soal[st.session_state.index_soal]
 
 if not st.session_state.bank_kata and not st.session_state.jawaban_user:
-    soal_acak = list(soal_sekarang["soal"])
-    random.seed(42)
-    random.shuffle(soal_acak)
-    st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_acak)]
+    st.session_state.bank_kata = [{"id": i, "teks": kata, "dipakai": False} for i, kata in enumerate(soal_sekarang["soal"])]
 
-# --- STYLING CSS SOLUSI TEKS TERPOTONG TITIK-TITIK ---
+# --- STYLING CSS PERBAIKAN TEKS TERPOTONG TITIK-TITIK ---
 st.markdown("""
 <style>
     div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
         display: none;
     }
     
-    /* Menjaga Layout 4 Kolom di HP */
+    /* Menjaga Multi-kolom Tetap Horisontal */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
@@ -140,18 +137,17 @@ st.markdown("""
         min-width: 0 !important;
     }
     
-    /* Mencegah titik-titik (ellipsis) & Mengizinkan teks berpindah baris secara alami */
+    /* Mencegah Ellipsis (...) & Mengizinkan Teks Bungkus Ke Bawah */
     div.stButton > button {
         border-radius: 8px !important;
         font-weight: bold !important;
         padding: 4px 2px !important;
-        font-size: clamp(0.68rem, 2.3vw, 0.9rem) !important;
+        font-size: clamp(0.65rem, 2.2vw, 0.88rem) !important;
         line-height: 1.2 !important;
         height: auto !important;
         min-height: 42px !important;
     }
 
-    /* Memaksa elemen p, div, span di dalam tombol untuk wrapping */
     div.stButton > button p, div.stButton > button div, div.stButton > button span {
         white-space: normal !important;
         word-break: break-all !important;
@@ -255,7 +251,7 @@ def render_kuis_lengkap():
                         kata_bank["dipakai"] = False
                 st.rerun()
 
-    # 2. BANK KATA PILIHAN (4 Kolom)
+    # 2. BANK KATA PILIHAN
     st.write("### Pilihan Kata:")
     cols_pilihan = st.columns(4)
     for idx, item in enumerate(st.session_state.bank_kata):
