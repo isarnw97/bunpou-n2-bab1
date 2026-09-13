@@ -47,7 +47,7 @@ if "database_soal" not in st.session_state:
             "id": 5,
             "pola": "Pola 2: ～に際して・～にあたって",
             "kanji": "当ショッピングサイトのご利用に際して、以下のご利用条件をよくお読みください。",
-            "hiragana": "とうしょっぴんぐさいとのごりようにさいして、いかのごりようじょうけんをよくおよみください。",
+            "hiragana": "とうしょっぴんぐさいとのごり方向にさいして、いかのごりようじょうけんをよくおよみください。",
             "arti": "Saat menggunakan situs belanja ini, harap baca syarat dan ketentuan penggunaan di bawah ini dengan cermat.",
             "kunci": ["とうしょっぴんぐさいと", "の", "ごりよう", "にさいして", "、", "いかの", "ごりようじょうけん", "を", "よく", "およみください", "。"],
             "soal": ["よく", "いかの", "とうしょっぴんぐさいと", "にさいして", "ごりようじょうけん", "およみください", "を", "の", "ごりよう", "、", "、"]
@@ -215,17 +215,29 @@ st.markdown("""
     div[data-testid="stStatusWidget"] + div div[data-testid="stWidgetLabel"] {
         display: none;
     }
-    /* Grid Pilihan Kata di bawah tetap 4 kolom di HP */
+    
+    /* Tata letak fleksibel otomatis menyesuaikan panjang kata di HP */
     [data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
         gap: 6px !important;
     }
+    
     [data-testid="stHorizontalBlock"] > div {
-        flex: 1 1 22% !important; 
-        min-width: 70px !important; 
+        flex: 0 1 auto !important; 
+        min-width: unset !important;
     }
+    
+    /* Tombol kata fleksibel dan cegah pemotongan teks (...) */
+    div.stButton > button {
+        border-radius: 12px !important;
+        font-weight: bold !important;
+        padding: 6px 12px !important;
+        width: auto !important;
+        white-space: nowrap !important;
+    }
+    
     /* Kotak Info Soal */
     .info-box {
         background-color: #e8f4fd;
@@ -236,12 +248,7 @@ st.markdown("""
     }
     .text-bunpou { font-size: 1.05rem; font-weight: bold; color: #1fa2ff; margin: 0 0 6px 0; }
     .text-arti { font-size: 1.2rem; font-weight: bold; color: #1a1a1a; margin: 0; }
-    /* Tombol Pilihan Kata di bawah */
-    div.stButton > button {
-        border-radius: 12px !important;
-        font-weight: bold !important;
-        padding: 6px 10px !important;
-    }
+
     /* Indikator Mode Tukar */
     .swap-indicator {
         background-color: #e6fffa;
